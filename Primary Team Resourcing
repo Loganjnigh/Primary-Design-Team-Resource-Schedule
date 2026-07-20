@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Primary Design Team — Resource Schedule | CPP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#9E053B;          /* PMS 194 C — headings, call-outs, firm */
+  --red-deep:#7d0430;
+  --ink:#000000;          /* PMS Black */
+  --gray11:#4D4D4D;       /* Cool Gray 11 */
+  --gray:#707070;
+  --line:#DEDEDE;
+  --f2:#F2F2F2;
+  --f9:#F9F9F9;
+  --white:#FFFFFF;
+  --gold:#DFB200;         /* secondary — tenders / indicative */
+  --peach:#F2BB97;        /* secondary — highlight */
+  --peach-lt:#F4DDCE;     /* secondary — highlight light */
+  --leftW:268px;
+  --rowH:34px;
+  --grpH:44px;
+  --headH:58px;
+  --sh:0 1px 2px rgba(0,0,0,.08),0 6px 20px rgba(0,0,0,.06);
+  --focus:0 0 0 3px rgba(158,5,59,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  font-family:'Montserrat',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--ink);background:var(--white);
+  font-size:14px;line-height:1.45;-webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;height:100vh;overflow:hidden;
+}
+.tnum{font-variant-numeric:tabular-nums;letter-spacing:.2px}
+button{font-family:inherit}
+:focus-visible{outline:none;box-shadow:var(--focus);border-radius:6px}
+
+/* ---------- Masthead ---------- */
+.mast{display:flex;align-items:center;gap:16px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--white);flex:0 0 auto}
+.mark{flex:0 0 auto;display:flex;align-items:center}
+.mark img{display:block;height:44px;width:auto}
+.mast-txt{display:flex;flex-direction:column;line-height:1.05}
+.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gray)}
+.mast h1{margin:2px 0 0;font-size:23px;font-weight:800;letter-spacing:-.01em}
+.mast h1 b{color:var(--red);font-weight:800}
+.mast-spacer{flex:1}
+.mast-meta{text-align:right;font-size:11px;color:var(--gray);letter-spacing:.04em}
+.mast-meta b{color:var(--ink);font-weight:700}
+
+/* ---------- Toolbar ---------- */
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 20px;border-bottom:1px solid var(--line);background:var(--f9);flex:0 0 auto}
+.tb-group{display:flex;align-items:center;gap:6px}
+.tb-label{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-right:2px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--white)}
+.seg button{border:0;background:transparent;padding:7px 12px;font-size:12px;font-weight:600;color:var(--gray11);cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--red);color:#fff}
+.seg button:hover:not(.on){background:var(--f2)}
+.btn{border:1px solid var(--line);background:var(--white);color:var(--ink);padding:7px 13px;font-size:12px;font-weight:600;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{background:var(--f2)}
+.btn.primary{background:var(--red);border-color:var(--red);color:#fff}
+.btn.primary:hover{background:var(--red-deep)}
+.btn svg{display:block}
+.spacer{flex:1}
+.legend{display:flex;align-items:center;gap:14px;font-size:11px;color:var(--gray11);flex-wrap:wrap}
+.lg{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:10px;border-radius:2px;display:inline-block}
+.dref{width:11px;height:11px;transform:rotate(45deg);display:inline-block;border:1.5px solid var(--red);background:#fff}
+.dref.firm{background:var(--red);border-color:var(--red)}
+
+/* ---------- Board ---------- */
+.viewport{flex:1 1 auto;overflow:auto;position:relative;background:var(--white)}
+.board{position:relative}
+.thead{position:sticky;top:0;z-index:30;height:var(--headH);display:flex;width:100%;background:var(--white);border-bottom:1.5px solid var(--gray11)}
+.thead .corner{position:sticky;left:0;z-index:5;width:var(--leftW);flex:0 0 var(--leftW);background:var(--white);border-right:1.5px solid var(--gray11);display:flex;align-items:flex-end;padding:0 14px 8px}
+.corner .corner-title{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray)}
+.taxis{position:relative;flex:0 0 auto}
+.month{position:absolute;top:0;bottom:0;border-left:1px solid var(--line);padding:6px 0 0 8px;overflow:hidden}
+.month .m-name{font-size:11px;font-weight:700;color:var(--ink);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+.month.alt{background:var(--f9)}
+.week{position:absolute;top:26px;bottom:0;border-left:1px dashed #e7e7e7;font-size:9px;color:var(--gray);padding:2px 0 0 3px;white-space:nowrap}
+
+.rows{position:relative}
+.grp{display:flex;width:100%;height:var(--grpH);align-items:stretch;border-bottom:1px solid var(--line);background:var(--f2)}
+.grp .g-label{position:sticky;left:0;z-index:15;width:var(--leftW);flex:0 0 var(--leftW);background:var(--f2);border-right:1.5px solid var(--gray11);display:flex;flex-direction:column;justify-content:center;padding:5px 14px;gap:3px;cursor:pointer}
+.grp .g-label:hover{background:#ededed}
+.g-name{font-size:13px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:7px}
+.g-name .g-nm{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-name .cap{font-size:10px;font-weight:700;color:#fff;background:var(--gray);border-radius:20px;padding:1px 7px;flex:0 0 auto}
+.chev{border:0;background:none;padding:0;width:16px;height:16px;flex:0 0 16px;display:flex;align-items:center;justify-content:center;color:var(--gray11);cursor:pointer}
+.chev svg{width:11px;height:11px;transition:transform .16s}
+.chev.closed svg{transform:rotate(-90deg)}
+@media (prefers-reduced-motion:reduce){.chev svg{transition:none}}
+.util{display:flex;align-items:center;gap:7px}
+.util-track{position:relative;flex:1;height:6px;border-radius:4px;background:#e2e2e2;overflow:hidden}
+.util-fill{position:absolute;left:0;top:0;bottom:0;background:var(--red);border-radius:4px}
+.util-fill.over{background:repeating-linear-gradient(45deg,var(--red),var(--red) 5px,var(--gold) 5px,var(--gold) 10px)}
+.util-num{font-size:10.5px;font-weight:700;color:var(--gray11);min-width:30px;text-align:right}
+.util-num.over{color:var(--red)}
+.grp .g-track{position:relative;flex:0 0 auto;background:var(--f2)}
+
+.row{display:flex;width:100%;height:var(--rowH);align-items:stretch;border-bottom:1px solid #ededed}
+.row:hover .r-label{background:#fbf3f6}
+.r-label{position:sticky;left:0;z-index:15;width:var(--leftW);flex:0 0 var(--leftW);background:var(--white);border-right:1.5px solid var(--gray11);display:flex;align-items:center;gap:7px;padding:0 12px 0 22px;cursor:pointer}
+.r-label:hover{background:#fbf3f6}
+.r-dot{width:8px;height:8px;border-radius:2px;flex:0 0 auto}
+.r-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.r-client{font-size:9.5px;font-weight:700;color:var(--gray);letter-spacing:.03em;text-transform:uppercase;flex:0 0 auto}
+.r-track{position:relative;flex:0 0 auto}
+
+/* month bands inside body */
+.band{position:absolute;top:0;bottom:0;border-left:1px solid #f0f0f0;pointer-events:none}
+.band.alt{background:var(--f9)}
+.todayline{position:absolute;top:0;bottom:0;width:2px;background:var(--red);z-index:8;pointer-events:none}
+.todaycap{position:absolute;z-index:40;transform:translateX(-50%);background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:.1em;padding:2px 6px;border-radius:4px;white-space:nowrap;text-transform:uppercase}
+
+/* bars */
+.bar{position:absolute;height:20px;top:7px;border-radius:5px;background:var(--red);color:#fff;display:flex;align-items:center;padding:0 8px;font-size:10.5px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.16);user-select:none;overflow:visible;white-space:nowrap}
+.bar .bar-txt{overflow:hidden;text-overflow:ellipsis}
+.bar.tender{background:var(--gold);color:#3a2f00}
+.bar.dc{background:var(--gray11)}
+.bar:hover{filter:brightness(1.06)}
+.bar.dragging{filter:brightness(1.1);box-shadow:0 4px 14px rgba(0,0,0,.28);z-index:12}
+.bar .util-chip{margin-left:6px;background:rgba(255,255,255,.24);border-radius:3px;padding:0 4px;font-weight:700;font-size:9.5px}
+.bar.tender .util-chip{background:rgba(0,0,0,.14)}
+.handle{position:absolute;top:0;bottom:0;width:7px;cursor:ew-resize;z-index:3}
+.handle.l{left:-1px}.handle.r{right:-1px}
+.bar .edit-btn{position:absolute;top:-9px;right:-9px;width:18px;height:18px;border-radius:50%;background:#fff;border:1px solid var(--line);display:none;align-items:center;justify-content:center;box-shadow:var(--sh);cursor:pointer}
+.bar:hover .edit-btn{display:flex}
+.bar .edit-btn svg{width:10px;height:10px}
+
+/* milestone diamonds */
+.ms{position:absolute;width:12px;height:12px;transform:translate(-50%,-50%) rotate(45deg);top:17px;border:1.5px solid #fff;z-index:10;cursor:help}
+.ms.m15{background:#fff;border-color:var(--red)}
+.ms.m45{background:var(--peach);border-color:var(--red)}
+.ms.m85{background:var(--red);border-color:#fff}
+
+/* calala plan cue */
+.cable-pill{position:absolute;top:-8px;left:0;background:var(--ink);color:#fff;font-size:8.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:4px;display:inline-flex;align-items:center;gap:4px;z-index:11;white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.cable-pill .dia{width:6px;height:6px;background:var(--gold);transform:rotate(45deg)}
+
+.tbc{position:absolute;height:20px;top:7px;left:6px;border:1.5px dashed var(--gray);border-radius:5px;background:repeating-linear-gradient(45deg,#fafafa,#fafafa 6px,#f0f0f0 6px,#f0f0f0 12px);color:var(--gray11);display:flex;align-items:center;padding:0 9px;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap}
+.tbc:hover{border-color:var(--red);color:var(--red)}
+
+/* ---------- Tooltip ---------- */
+.tip{position:fixed;z-index:140;background:var(--ink);color:#fff;font-size:11px;font-weight:500;padding:7px 10px;border-radius:7px;pointer-events:none;box-shadow:var(--sh);max-width:240px;opacity:0;transition:opacity .1s}
+.tip b{color:var(--peach)}
+@media (prefers-reduced-motion:reduce){.tip{transition:none}}
+
+/* ---------- Context menu ---------- */
+.ctx{position:fixed;z-index:210;background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 34px rgba(0,0,0,.22);padding:5px;min-width:180px;display:none}
+.ctx.show{display:block}
+.ctx-head{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);padding:6px 10px 4px}
+.ctx button{display:flex;align-items:center;gap:9px;width:100%;border:0;background:none;text-align:left;padding:8px 10px;font-family:inherit;font-size:13px;font-weight:600;color:var(--ink);border-radius:7px;cursor:pointer}
+.ctx button:hover{background:var(--f2)}
+.ctx button.danger{color:var(--red)}
+.ctx button.danger:hover{background:#fbeef2}
+.ctx .ic{width:14px;height:14px;flex:0 0 14px;color:var(--gray11)}
+.ctx button.danger .ic{color:var(--red)}
+
+/* ---------- Drawer (Calala) ---------- */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.34);z-index:150;opacity:0;pointer-events:none;transition:opacity .18s}
+.scrim.show{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(560px,94vw);background:var(--white);z-index:160;box-shadow:-8px 0 40px rgba(0,0,0,.22);transform:translateX(100%);transition:transform .22s ease;display:flex;flex-direction:column}
+.drawer.show{transform:none}
+@media (prefers-reduced-motion:reduce){.scrim,.drawer{transition:none}}
+.dr-head{padding:20px 22px 16px;border-bottom:1px solid var(--line);position:relative}
+.dr-head .eyebrow{color:var(--red)}
+.dr-head h2{margin:4px 0 2px;font-size:20px;font-weight:800;letter-spacing:-.01em}
+.dr-head .sub{font-size:12px;color:var(--gray11)}
+.dr-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:16px;color:var(--gray11);line-height:1}
+.dr-close:hover{background:var(--f2)}
+.dr-body{overflow:auto;padding:18px 22px 30px}
+.dr-note{background:var(--peach-lt);border-left:3px solid var(--red);padding:10px 12px;border-radius:0 6px 6px 0;font-size:12px;color:var(--gray11);margin-bottom:18px}
+
+.mini{border:1px solid var(--line);border-radius:10px;padding:12px 12px 6px;margin-bottom:20px;background:var(--f9);overflow-x:auto}
+.mini-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:10px}
+.mini-scale{position:relative;height:16px;margin-bottom:4px}
+.mini-mtick{position:absolute;font-size:9px;color:var(--gray);border-left:1px solid var(--line);padding-left:3px;top:0;bottom:0}
+.mini-row{position:relative;height:24px}
+.mini-bar{position:absolute;height:15px;top:3px;border-radius:4px;display:flex;align-items:center;padding:0 6px;font-size:9px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden}
+.mini-bar.firm{background:var(--red)}
+.mini-bar.investigating{background:var(--gold);color:#3a2f00}
+.mini-bar.pending{background:repeating-linear-gradient(45deg,#b9b9b9,#b9b9b9 5px,#cfcfcf 5px,#cfcfcf 10px);color:#333}
+.mini-today{position:absolute;top:0;bottom:0;width:2px;background:var(--red);opacity:.6}
+
+.seq{list-style:none;margin:0;padding:0;counter-reset:s}
+.seq li{display:grid;grid-template-columns:30px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.seq li:last-child{border-bottom:0}
+.seq .n{width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.seq .n.firm{background:var(--red)}
+.seq .d{font-size:13px;font-weight:700}
+.seq .t{font-size:12px;color:var(--red);font-weight:700;margin-top:1px}
+.seq .st{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-top:5px}
+.st.firm{background:var(--red);color:#fff}
+.st.investigating{background:var(--gold);color:#3a2f00}
+.st.pending{background:var(--f2);color:var(--gray11);border:1px solid var(--line)}
+.seq .note{font-size:11.5px;color:var(--gray11);margin-top:6px;line-height:1.4}
+
+/* ---------- Modal (add/edit) ---------- */
+.modal{position:fixed;inset:0;z-index:170;display:none;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto;background:rgba(0,0,0,.34)}
+.modal.show{display:flex}
+.modal-card{background:#fff;width:min(560px,100%);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.3);position:relative}
+.modal-head{padding:18px 22px;border-bottom:1px solid var(--line)}
+.modal-head .eyebrow{color:var(--red)}
+.modal-head h2{margin:3px 0 0;font-size:19px;font-weight:800}
+.modal-body{padding:18px 22px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray11);margin-bottom:5px}
+.field input,.field select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-family:inherit;font-size:13px;color:var(--ink);background:#fff}
+.field input:focus,.field select:focus{border-color:var(--red);outline:none;box-shadow:var(--focus)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.hint{font-size:10.5px;color:var(--gray);margin-top:-8px;margin-bottom:12px}
+.ms-fieldset{border:1px solid var(--line);border-radius:10px;padding:12px 14px 2px;margin-bottom:6px}
+.ms-fieldset legend{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);padding:0 6px}
+.modal-foot{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.modal-foot .spacer{flex:1}
+.link-danger{background:none;border:0;color:var(--red);font-weight:600;font-size:12px;cursor:pointer;padding:6px}
+.link-danger:hover{text-decoration:underline}
+
+.empty{padding:40px;text-align:center;color:var(--gray)}
+
+/* ---------- Look-ahead sheet ---------- */
+.sheet{position:fixed;top:50%;left:50%;transform:translate(-50%,-46%);width:min(880px,94vw);max-height:88vh;background:#fff;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.34);z-index:180;display:none;flex-direction:column;opacity:0}
+.sheet.show{display:flex;opacity:1;transform:translate(-50%,-50%);transition:opacity .16s ease,transform .18s ease}
+@media (prefers-reduced-motion:reduce){.sheet.show{transition:none}}
+.sheet-head{padding:20px 24px 16px;border-bottom:1px solid var(--line);position:relative}
+.sheet-head .eyebrow{color:var(--red)}
+.sheet-head h2{margin:4px 0 0;font-size:21px;font-weight:800;letter-spacing:-.01em}
+.sheet-body{overflow:auto;padding:8px 12px 20px}
+
+.la-cablewrap{margin:10px 12px 6px;background:var(--peach-lt);border-radius:12px;padding:12px 14px}
+.la-cablewrap .la-ct{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.la-cablewrap .la-cd{width:8px;height:8px;background:var(--red);transform:rotate(45deg)}
+.la-cable-item{font-size:12px;color:var(--gray11);padding:3px 0;display:flex;gap:8px}
+.la-cable-item b{color:var(--ink);font-weight:700}
+.la-cable-item .w{color:var(--red);font-weight:700;white-space:nowrap}
+
+.la-weekhdr{display:grid;grid-template-columns:200px repeat(4,1fr) 74px;gap:8px;padding:8px 16px 6px;position:sticky;top:0;background:#fff;z-index:2}
+.la-weekhdr div{font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray);text-align:center}
+.la-weekhdr div:first-child{text-align:left}
+.la-row{display:grid;grid-template-columns:200px repeat(4,1fr) 74px;gap:8px;padding:10px 16px;border-top:1px solid var(--line);align-items:center}
+.la-row:hover{background:var(--f9)}
+.la-name{font-size:13px;font-weight:700}
+.la-name .sub{font-size:10.5px;font-weight:600;color:var(--gray);margin-top:1px}
+.la-cell{position:relative;height:38px;border-radius:6px;background:var(--f2);overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+.la-bar{position:absolute;left:0;right:0;bottom:0;background:var(--red)}
+.la-bar.over{background:repeating-linear-gradient(45deg,var(--red),var(--red) 5px,var(--gold) 5px,var(--gold) 10px)}
+.la-bar.zero{background:var(--line)}
+.la-pct{position:relative;z-index:1;font-size:10.5px;font-weight:700;padding-bottom:3px;color:#fff;text-shadow:0 1px 1px rgba(0,0,0,.35)}
+.la-pct.low{color:var(--gray11);text-shadow:none}
+.la-peak{text-align:center;font-size:15px;font-weight:800}
+.la-peak.over{color:var(--red)}
+.la-peak .pl{display:block;font-size:8.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gray)}
+.la-flags{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 0}
+.la-flag{font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:20px;background:var(--f2);color:var(--gray11);border:1px solid var(--line)}
+.la-flag.ms{background:#fff;border-color:var(--red);color:var(--red)}
+.la-flag.end{background:var(--peach-lt);border-color:var(--peach);color:#7d4a1f}
+.la-flag.start{background:#eef7ee;border-color:#bcdcbc;color:#2f6b2f}
+.la-legend{font-size:10.5px;color:var(--gray);padding:10px 16px 2px;display:flex;gap:16px;flex-wrap:wrap}
+@media (max-width:640px){
+  .la-weekhdr,.la-row{grid-template-columns:120px repeat(4,1fr) 54px}
+}@media (max-width:640px){
+  .mast h1{font-size:18px}
+  :root{--leftW:150px}
+  .legend{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <span class="mark" aria-hidden="true"><img src="data:image/png;base64,…LOGO…" alt="Consolidated Power Projects" width="62" height="45"></span>
+  <div class="mast-txt">
+    <span class="eyebrow">Resourcing line · QLD Design</span>
+    <h1>Primary Design Team <b>Resource Schedule</b></h1>
+  </div>
+  <div class="mast-spacer"></div>
+  <div class="mast-meta">
+    <div><b id="todayLabel"></b></div>
+    <div id="countLabel"></div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <div class="tb-group">
+    <span class="tb-label">Scale</span>
+    <div class="seg" id="scaleSeg" role="group" aria-label="Time scale">
+      <button data-z="week">Week</button>
+      <button data-z="month" class="on">Month</button>
+      <button data-z="quarter">Quarter</button>
+    </div>
+  </div>
+  <button class="btn" id="btnToday">Jump to today</button>
+  <button class="btn" id="btnFit">Fit all</button>
+  <button class="btn" id="btnCollapse">Collapse all</button>
+  <button class="btn" id="btnLook">
+    <svg width="13" height="13" viewBox="0 0 14 14"><path d="M1 12V2m0 10h12M3 9l3-3 2 2 4-5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    4-week look-ahead
+  </button>
+  <div class="spacer"></div>
+  <div class="legend" aria-hidden="false">
+    <span class="lg"><span class="sw" style="background:var(--red)"></span>Project</span>
+    <span class="lg"><span class="sw" style="background:var(--gold)"></span>Tender</span>
+    <span class="lg"><span class="dref"></span>15/45%</span>
+    <span class="lg"><span class="dref firm"></span>85% gate</span>
+  </div>
+  <button class="btn primary" id="btnAdd">
+    <svg width="13" height="13" viewBox="0 0 13 13"><path d="M6.5 1v11M1 6.5h11" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+    Add project
+  </button>
+  <button class="btn" id="btnSave" title="Download schedule as a .json file">Save file</button>
+  <button class="btn" id="btnLoad" title="Load a previously saved .json file">Load file</button>
+  <input type="file" id="fileInput" accept="application/json,.json" hidden>
+</div>
+
+<div class="viewport" id="viewport">
+  <div class="board" id="board">
+    <div class="thead" id="thead">
+      <div class="corner"><span class="corner-title">Team member / project</span></div>
+      <div class="taxis" id="taxis"></div>
+    </div>
+    <div class="rows" id="rows"></div>
+  </div>
+</div>
+
+<!-- Tooltip -->
+<div class="tip" id="tip"></div>
+
+<!-- Right-click menu -->
+<div class="ctx" id="ctxMenu" role="menu"></div>
+
+<!-- 4-week look-ahead -->
+<div class="scrim" id="lookScrim"></div>
+<section class="sheet" id="look" role="dialog" aria-modal="true" aria-labelledby="lookTitle">
+  <div class="sheet-head">
+    <span class="eyebrow" id="lookRange">Resourcing forecast</span>
+    <h2 id="lookTitle">4-week look-ahead &amp; utilisation</h2>
+    <button class="dr-close" id="lookClose" aria-label="Close">✕</button>
+  </div>
+  <div class="sheet-body" id="lookBody"></div>
+</section>
+
+<!-- Calala drawer -->
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drTitle">
+  <div class="dr-head">
+    <span class="eyebrow">Calala BESS · 330kV cable · Equis</span>
+    <h2 id="drTitle">Cable installation &amp; termination plan</h2>
+    <div class="sub">Site attendance windows for the design team — pull, jointing &amp; termination sequence.</div>
+    <button class="dr-close" id="drClose" aria-label="Close">✕</button>
+  </div>
+  <div class="dr-body" id="drBody"></div>
+</aside>
+
+<!-- Add / edit modal -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-card">
+    <div class="modal-head">
+      <span class="eyebrow" id="modalEyebrow">New allocation</span>
+      <h2 id="modalTitle">Add project</h2>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label for="fMember">Team member</label>
+        <select id="fMember"></select>
+      </div>
+      <div class="field" id="newMemberWrap" style="display:none">
+        <label for="fNewMember">New team member name</label>
+        <input id="fNewMember" placeholder="e.g. Jordan Blake">
+      </div>
+      <div class="field">
+        <label for="fName">Project name</label>
+        <input id="fName" placeholder="e.g. Tuckeroo BESS GC">
+      </div>
+      <div class="grid3">
+        <div class="field">
+          <label for="fClient">Client</label>
+          <input id="fClient" placeholder="e.g. Powerlink">
+        </div>
+        <div class="field">
+          <label for="fType">Type</label>
+          <select id="fType"><option>Project</option><option>Tender</option></select>
+        </div>
+        <div class="field">
+          <label for="fUtil">Utilisation %</label>
+          <input id="fUtil" type="number" min="0" max="100" step="5" value="20">
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="fStart">Start</label><input id="fStart" type="date"></div>
+        <div class="field"><label for="fEnd">End</label><input id="fEnd" type="date"></div>
+      </div>
+      <p class="hint">Leave start &amp; end blank for unscheduled work — it shows as “Dates TBC”.</p>
+      <fieldset class="ms-fieldset">
+        <legend>Submission milestones (optional)</legend>
+        <div class="grid3">
+          <div class="field"><label for="fM15">15%</label><input id="fM15" type="date"></div>
+          <div class="field"><label for="fM45">45%</label><input id="fM45" type="date"></div>
+          <div class="field"><label for="fM85">85%</label><input id="fM85" type="date"></div>
+        </div>
+      </fieldset>
+    </div>
+    <div class="modal-foot">
+      <button class="link-danger" id="btnDelete" style="display:none">Delete allocation</button>
+      <div class="spacer"></div>
+      <button class="btn" id="btnCancel">Cancel</button>
+      <button class="btn primary" id="btnSaveProj">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   CPP Primary Design Team — Resource Schedule
+   Self-contained. State lives in memory; Save/Load via JSON.
+   (localStorage used opportunistically, wrapped so it never
+   breaks when unavailable.)
+   ============================================================ */
+
+/* ---------- date helpers ---------- */
+const DAY = 86400000;
+function d(iso){ if(!iso) return null; const p=iso.split('-'); return new Date(+p[0], +p[1]-1, +p[2], 12,0,0,0); }
+function iso(dt){ if(!dt) return null; const y=dt.getFullYear(), m=String(dt.getMonth()+1).padStart(2,'0'), da=String(dt.getDate()).padStart(2,'0'); return `${y}-${m}-${da}`; }
+function addDays(dt,n){ const x=new Date(dt); x.setDate(x.getDate()+n); return x; }
+function daysBetween(a,b){ return Math.round((b-a)/DAY); }
+const MONTHS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmt(dt){ return dt? `${dt.getDate()} ${MONTHS[dt.getMonth()]} ${String(dt.getFullYear()).slice(2)}`:'—'; }
+function startOfMonth(dt){ return new Date(dt.getFullYear(),dt.getMonth(),1,12); }
+function endOfMonth(dt){ return new Date(dt.getFullYear(),dt.getMonth()+1,0,12); }
+
+/* ---------- seed data (from dates.xlsx) ---------- */
+const DON={m15:'2026-06-01',m45:'2026-07-27',m85:'2026-09-16',start:'2026-05-08',end:'2026-10-23'};
+const YAB={m15:'2026-03-04',m45:'2026-04-20',m85:'2026-06-04',start:'2026-02-13',end:'2026-07-10'};
+const MEL={start:'2026-07-13',end:'2026-11-13'};
+const SYN={start:'2026-06-01',end:'2026-08-20'};
+
+const SEED=[
+  {name:'Sean Leen',projects:[
+    {name:'Yabulu Grid Connection',client:'Powerlink',type:'Project',util:40,...YAB},
+    {name:'Beryl Substation',client:'Transgrid',type:'Project',util:10,start:null,end:null},
+    {name:'MEL2 Datacentre',client:'AirTrunk',type:'Project',util:40,...MEL},
+  ]},
+  {name:'Armin Lahij',projects:[
+    {name:'Yabulu Grid Connection',client:'Powerlink',type:'Project',util:20,...YAB},
+    {name:'Don River Switchyard',client:'Powerlink',type:'Project',util:60,...DON},
+    {name:'Syncon Tender',client:'Powerlink',type:'Tender',util:20,...SYN},
+  ]},
+  {name:'Ryan Rees',projects:[
+    {name:'Don River Switchyard',client:'Powerlink',type:'Project',util:20,...DON},
+    {name:'MEL2 Datacentre',client:'AirTrunk',type:'Project',util:70,...MEL},
+    {name:'Syncon Tender',client:'Powerlink',type:'Tender',util:10,...SYN},
+    {name:'Accelerated Syncon Project',client:'Transgrid',type:'Project',util:0,start:null,end:null},
+  ]},
+  {name:'Tim Sporne',projects:[
+    {name:'Don River Switchyard',client:'Powerlink',type:'Project',util:100,...DON},
+  ]},
+  {name:'Adeel Javaid',projects:[
+    {name:'NextDC Sydney West',client:'Transgrid',type:'Project',util:60,start:'2025-11-28',end:'2026-07-02'},
+    {name:'Accelerated Syncon Project',client:'Transgrid',type:'Project',util:10,start:null,end:null},
+    {name:'MEL2 Datacentre',client:'AirTrunk',type:'Project',util:30,...MEL},
+  ]},
+  {name:'Samira Rafiee',projects:[
+    {name:'Don River Switchyard',client:'Powerlink',type:'Project',util:100,...DON},
+  ]},
+  {name:'Brendan McHugh',projects:[
+    {name:'Calala BESS 330kV Cable',client:'Equis',type:'Project',util:30,start:'2025-01-12',end:'2026-12-20',cablePlan:true},
+    {name:'MEL2 Datacentre',client:'AirTrunk',type:'Project',util:50,...MEL},
+    {name:'Tuckeroo BESS GC',client:'Powerlink',type:'Project',util:20,start:'2026-07-13',end:'2026-07-31'},
+  ]},
+  {name:'Ben Pyne',projects:[
+    {name:'Don River Switchyard',client:'Powerlink',type:'Project',util:100,...DON},
+  ]},
+];
+
+/* Calala cable install/termination sequence (from dates.xlsx rows 27-33) */
+const CABLE=[
+  {n:1,desc:'Calala BESS → JB2 — Cable Pull',timing:'27 Jul – 29 Jul',status:'firm',note:'Firm — this has been planned.',s:'2026-07-27',e:'2026-07-29'},
+  {n:2,desc:'Calala BESS — Termination',timing:'10 Aug – 20 Aug',status:'firm',note:'Firm — this has been planned.',s:'2026-08-10',e:'2026-08-20'},
+  {n:3,desc:'JB1 → JB2 — Cable Pull',timing:'Mid Aug – Early Sept',status:'investigating',note:'Investigating options to complete these works without access from Burgmanns Lane.',s:'2026-08-15',e:'2026-09-07'},
+  {n:4,desc:'JB2 — Jointing',timing:'Mid Sept',status:'pending',note:'Pending whether CableGrid can fit this in.',s:'2026-09-12',e:'2026-09-18'},
+  {n:5,desc:'Tamworth → JB1 — Cable Pull',timing:'Late Oct – Early Nov',status:'pending',note:'Pending modification management plan approval from Equis.',s:'2026-10-26',e:'2026-11-06'},
+  {n:6,desc:'JB1 — Jointing',timing:'Mid Nov',status:'pending',note:'Pending modification management plan approval from Equis.',s:'2026-11-12',e:'2026-11-18'},
+  {n:7,desc:'Tamworth — Termination',timing:'End Nov – Early Dec',status:'pending',note:'Pending modification management plan approval from Equis.',s:'2026-11-26',e:'2026-12-06'},
+];
+
+/* ---------- state ---------- */
+let state=null;
+let uid=1;
+function hydrate(raw){
+  state={members:raw.map(m=>({
+    id:'m'+(uid++), name:m.name,
+    projects:m.projects.map(p=>({id:'p'+(uid++),cablePlan:false,m15:null,m45:null,m85:null,...p}))
+  }))};
+}
+const LS_KEY='cpp_resource_schedule_v1';
+function persist(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(exportData())); }catch(e){/* ignore */} }
+function tryRestore(){
+  try{ const s=localStorage.getItem(LS_KEY); if(s){ const raw=JSON.parse(s); if(raw&&raw.members){ hydrate(raw.members); return true; } } }catch(e){}
+  return false;
+}
+function exportData(){
+  return {app:'CPP Primary Design Team Resource Schedule',saved:new Date().toISOString(),
+    members:state.members.map(m=>({name:m.name,projects:m.projects.map(p=>({
+      name:p.name,client:p.client,type:p.type,util:p.util,start:p.start,end:p.end,
+      m15:p.m15,m45:p.m45,m85:p.m85,cablePlan:!!p.cablePlan
+    }))}))};
+}
+
+/* ---------- zoom / domain ---------- */
+const ZOOM={week:26,month:7.4,quarter:2.7};
+let zoom='month';
+let ppd=ZOOM[zoom];
+let domainStart, domainEnd, domainDays;
+
+function computeDomain(){
+  let min=null,max=null;
+  state.members.forEach(m=>m.projects.forEach(p=>{
+    [p.start,p.end,p.m15,p.m45,p.m85].forEach(v=>{ const dt=d(v); if(dt){ if(!min||dt<min)min=dt; if(!max||dt>max)max=dt; }});
+  }));
+  const today=new Date(); today.setHours(12,0,0,0);
+  if(!min) min=addDays(today,-30); if(!max) max=addDays(today,120);
+  if(today<min)min=today; if(today>max)max=today;
+  // include cable sequence range
+  CABLE.forEach(c=>{ const s=d(c.s),e=d(c.e); if(s<min)min=s; if(e>max)max=e; });
+  domainStart=startOfMonth(addDays(min,-6));
+  domainEnd=endOfMonth(addDays(max,6));
+  domainDays=daysBetween(domainStart,domainEnd)+1;
+}
+function xOf(dt){ return daysBetween(domainStart,dt)*ppd; }
+function dateAtX(x){ return addDays(domainStart, Math.round(x/ppd)); }
+function timelineWidth(){ return domainDays*ppd; }
+
+/* ---------- rendering ---------- */
+const el=id=>document.getElementById(id);
+const taxis=el('taxis'), rows=el('rows'), viewport=el('viewport'), board=el('board');
+
+function monthCells(){
+  const cells=[]; let cur=startOfMonth(domainStart); let i=0;
+  while(cur<=domainEnd){
+    const w=(endOfMonth(cur).getDate())*ppd;
+    cells.push({left:xOf(cur),width:w,label:`${MONTHS[cur.getMonth()]} ${String(cur.getFullYear()).slice(2)}`,alt:i%2===1,date:new Date(cur)});
+    cur=new Date(cur.getFullYear(),cur.getMonth()+1,1,12); i++;
+  }
+  return cells;
+}
+
+function renderAxis(){
+  const w=timelineWidth();
+  taxis.style.width=w+'px';
+  taxis.innerHTML='';
+  const cells=monthCells();
+  cells.forEach(c=>{
+    const m=document.createElement('div');
+    m.className='month'+(c.alt?' alt':'');
+    m.style.left=c.left+'px'; m.style.width=c.width+'px';
+    m.innerHTML=`<span class="m-name">${c.label}</span>`;
+    taxis.appendChild(m);
+  });
+  if(zoom==='week'){
+    // week ticks (Mondays)
+    let cur=new Date(domainStart); 
+    while(cur.getDay()!==1) cur=addDays(cur,1);
+    while(cur<=domainEnd){
+      const wk=document.createElement('div');
+      wk.className='week'; wk.style.left=xOf(cur)+'px';
+      wk.textContent=`${cur.getDate()}/${cur.getMonth()+1}`;
+      taxis.appendChild(wk); cur=addDays(cur,7);
+    }
+  }
+}
+
+function bands(container){
+  const cells=monthCells();
+  cells.forEach(c=>{
+    const b=document.createElement('div');
+    b.className='band'+(c.alt?' alt':'');
+    b.style.left=c.left+'px'; b.style.width=c.width+'px';
+    container.appendChild(b);
+  });
+}
+function todayMarker(container,withCap){
+  const t=new Date(); t.setHours(12,0,0,0);
+  if(t<domainStart||t>domainEnd) return;
+  const line=document.createElement('div');
+  line.className='todayline'; line.style.left=xOf(t)+'px';
+  container.appendChild(line);
+}
+
+function memberUtil(m){ return m.projects.reduce((s,p)=>s+(+p.util||0),0); }
+
+function render(){
+  computeDomain();
+  ppd=ZOOM[zoom];
+  renderAxis();
+  const w=timelineWidth();
+  board.style.width=`calc(var(--leftW) + ${w}px)`;
+  rows.innerHTML='';
+  hideTip();
+  el('countLabel').textContent=`${state.members.length} people · ${state.members.reduce((s,m)=>s+m.projects.length,0)} allocations`;
+
+  state.members.forEach(m=>{
+    // group header
+    const grp=document.createElement('div'); grp.className='grp';
+    const gl=document.createElement('div'); gl.className='g-label';
+    const util=memberUtil(m); const over=util>100;
+    const collapsed=!!m._collapsed;
+    gl.innerHTML=`
+      <div class="g-name">
+        <button class="chev ${collapsed?'closed':''}" aria-label="${collapsed?'Expand':'Collapse'} ${escapeHtml(m.name)}" aria-expanded="${!collapsed}">
+          <svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <span class="g-nm">${escapeHtml(m.name)}</span>
+        <span class="cap">${m.projects.length}</span>
+      </div>
+      <div class="util">
+        <div class="util-track"><div class="util-fill ${over?'over':''}" style="width:${Math.min(util,100)}%"></div></div>
+        <div class="util-num ${over?'over':''}">${util}%</div>
+      </div>`;
+    const gt=document.createElement('div'); gt.className='g-track'; gt.style.width=w+'px';
+    bands(gt); todayMarker(gt);
+    grp.appendChild(gl); grp.appendChild(gt); rows.appendChild(grp);
+    const toggle=()=>{ m._collapsed=!m._collapsed; render(); };
+    gl.addEventListener('click',toggle);
+    const addMenu=e=>showCtx(e,m.name,[{label:'Add project',icon:'add',fn:()=>openAdd(m)},{label:m._collapsed?'Expand':'Collapse',icon:'edit',fn:toggle}]);
+    gl.addEventListener('contextmenu',addMenu);
+    gt.addEventListener('contextmenu',addMenu);
+
+    // project rows
+    if(!m._collapsed) m.projects.forEach(p=>{
+      const row=document.createElement('div'); row.className='row';
+      const rl=document.createElement('div'); rl.className='r-label';
+      const col=barColor(p);
+      rl.innerHTML=`<span class="r-dot" style="background:${col}"></span>
+        <span class="r-name" title="${escapeHtml(p.name)}">${escapeHtml(p.name)}</span>
+        <span class="r-client">${escapeHtml(p.client||'')}</span>`;
+      rl.addEventListener('click',()=> p.cablePlan? openCable() : openEdit(m,p));
+      rl.addEventListener('contextmenu',e=>projectMenu(e,m,p));
+      const rt=document.createElement('div'); rt.className='r-track'; rt.style.width=w+'px';
+      bands(rt); todayMarker(rt);
+      renderBar(rt,m,p);
+      row.appendChild(rl); row.appendChild(rt); rows.appendChild(row);
+    });
+  });
+
+  addTodayCap();
+  syncCollapseBtn();
+}
+
+function addTodayCap(){
+  const t=new Date(); t.setHours(12,0,0,0);
+  if(t<domainStart||t>domainEnd) return;
+  const cap=document.createElement('div'); cap.className='todaycap';
+  cap.textContent='Today';
+  cap.style.left=xOf(t)+'px'; cap.style.top='34px';
+  taxis.appendChild(cap); // rides with the axis; taxis is cleared each render
+}
+
+function barColor(p){
+  return p.type==='Tender' ? 'var(--gold)' : 'var(--red)';
+}
+function barClass(p){
+  return p.type==='Tender' ? 'tender' : '';
+}
+
+function renderBar(track,m,p){
+  const s=d(p.start), e=d(p.end);
+  if(!s||!e){
+    const tbc=document.createElement('div'); tbc.className='tbc';
+    tbc.textContent='Dates TBC — set';
+    tbc.title='No dates yet — click to schedule';
+    tbc.addEventListener('click',()=>openEdit(m,p));
+    tbc.addEventListener('contextmenu',e=>projectMenu(e,m,p));
+    track.appendChild(tbc);
+    return;
+  }
+  const left=xOf(s), width=Math.max(daysBetween(s,e)*ppd, 14);
+  const bar=document.createElement('div');
+  bar.className='bar '+barClass(p);
+  bar.style.left=left+'px'; bar.style.width=width+'px';
+  bar.innerHTML=`<span class="bar-txt">${escapeHtml(p.name)}</span><span class="util-chip">${p.util}%</span>`;
+
+  // resize handles
+  const hl=document.createElement('div'); hl.className='handle l';
+  const hr=document.createElement('div'); hr.className='handle r';
+  bar.appendChild(hl); bar.appendChild(hr);
+
+  // edit affordance
+  const eb=document.createElement('div'); eb.className='edit-btn'; eb.title='Edit';
+  eb.innerHTML='<svg viewBox="0 0 12 12"><path d="M8.5 1.5l2 2L4 10l-2.5.5L2 8z" fill="none" stroke="#9E053B" stroke-width="1.3"/></svg>';
+  eb.addEventListener('click',ev=>{ev.stopPropagation();openEdit(m,p);});
+  bar.appendChild(eb);
+
+  // cable plan pill
+  if(p.cablePlan){
+    const pill=document.createElement('div'); pill.className='cable-pill';
+    pill.innerHTML='<span class="dia"></span>Cable plan ▸';
+    pill.title='View cable install & termination windows';
+    pill.addEventListener('click',ev=>{ev.stopPropagation();openCable();});
+    bar.appendChild(pill);
+  }
+
+  // milestones
+  addMs(track,left,s,p.m15,'m15','15% submission');
+  addMs(track,left,s,p.m45,'m45','45% submission');
+  addMs(track,left,s,p.m85,'m85','85% submission');
+
+  // interactions: click vs drag
+  wireDrag(bar,m,p,hl,hr);
+  bar.addEventListener('click',ev=>{
+    if(bar._moved) return;
+    if(p.cablePlan) openCable(); else openEdit(m,p);
+  });
+  bar.tabIndex=0;
+  bar.addEventListener('keydown',ev=>{ if(ev.key==='Enter'||ev.key===' '){ev.preventDefault(); p.cablePlan?openCable():openEdit(m,p);} });
+  bar.setAttribute('role','button');
+  bar.setAttribute('aria-label',`${p.name}, ${p.util} percent, ${fmt(s)} to ${fmt(e)}`);
+  bar.addEventListener('contextmenu',e=>projectMenu(e,m,p));
+
+  track.appendChild(bar);
+}
+
+function addMs(track,barLeft,barStart,msIso,cls,label){
+  const dt=d(msIso); if(!dt) return;
+  const dot=document.createElement('div');
+  dot.className='ms '+cls;
+  dot.style.left=xOf(dt)+'px';
+  dot.dataset.tip=`<b>${label}</b><br>${fmt(dt)}`;
+  wireTip(dot);
+  track.appendChild(dot);
+}
+
+/* ---------- drag & resize ---------- */
+function wireDrag(bar,m,p,hl,hr){
+  let mode=null,startX=0,os=null,oe=null,liveS=null,liveE=null;
+  const dur=daysBetween(d(p.start),d(p.end));
+  function down(e,which){
+    if(e.button!==undefined && e.button!==0) return; // left button only
+    if(p.cablePlan && which==='move'){ return; } // don't move calala by drag (protect the anchor project); still resizable
+    mode=which; startX=e.clientX; os=d(p.start); oe=d(p.end); bar._moved=false;
+    bar.classList.add('dragging');
+    window.addEventListener('pointermove',move); window.addEventListener('pointerup',up);
+    e.preventDefault(); e.stopPropagation();
+  }
+  function move(e){
+    const dxDays=Math.round((e.clientX-startX)/ppd);
+    if(Math.abs(e.clientX-startX)>3) bar._moved=true;
+    if(mode==='move'){ liveS=addDays(os,dxDays); liveE=addDays(oe,dxDays); }
+    else if(mode==='l'){ liveS=addDays(os,dxDays); if(daysBetween(liveS,oe)<1)liveS=addDays(oe,-1); liveE=oe; }
+    else if(mode==='r'){ liveE=addDays(oe,dxDays); if(daysBetween(os,liveE)<1)liveE=addDays(os,1); liveS=os; }
+    bar.style.left=xOf(liveS)+'px';
+    bar.style.width=Math.max(daysBetween(liveS,liveE)*ppd,14)+'px';
+  }
+  function up(){
+    window.removeEventListener('pointermove',move); window.removeEventListener('pointerup',up);
+    bar.classList.remove('dragging');
+    if(liveS&&liveE&&bar._moved){ p.start=iso(liveS); p.end=iso(liveE); persist(); render(); }
+    liveS=liveE=null; setTimeout(()=>{bar._moved=false;},0);
+  }
+  bar.addEventListener('pointerdown',e=>{ if(e.target===hl||e.target===hr)return; if(e.target.closest('.edit-btn')||e.target.closest('.cable-pill'))return; down(e,'move'); });
+  hl.addEventListener('pointerdown',e=>down(e,'l'));
+  hr.addEventListener('pointerdown',e=>down(e,'r'));
+}
+
+/* ---------- tooltip ---------- */
+const tip=el('tip');
+function wireTip(node){
+  node.addEventListener('mouseenter',e=>{ tip.innerHTML=node.dataset.tip; tip.style.opacity='1'; posTip(e); });
+  node.addEventListener('mousemove',posTip);
+  node.addEventListener('mouseleave',()=>{ tip.style.opacity='0'; });
+}
+function posTip(e){ tip.style.left=(e.clientX+14)+'px'; tip.style.top=(e.clientY+14)+'px'; }
+function hideTip(){ tip.style.opacity='0'; }
+
+/* ---------- context menu ---------- */
+const ctx=el('ctxMenu');
+const ICN={
+  add:'<svg class="ic" viewBox="0 0 14 14"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>',
+  edit:'<svg class="ic" viewBox="0 0 14 14"><path d="M9.5 2l2.5 2.5L5 11.5 2 12l.5-3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>',
+  del:'<svg class="ic" viewBox="0 0 14 14"><path d="M3 4h8M5.5 4V2.7h3V4M4 4l.6 8h4.8L10 4" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  cable:'<svg class="ic" viewBox="0 0 14 14"><path d="M7 1.5 12.5 7 7 12.5 1.5 7z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>'
+};
+function showCtx(e,title,items){
+  e.preventDefault();
+  ctx.innerHTML = (title?`<div class="ctx-head">${escapeHtml(title)}</div>`:'') +
+    items.map((it,i)=>`<button data-i="${i}" class="${it.danger?'danger':''}">${ICN[it.icon]||''}<span>${escapeHtml(it.label)}</span></button>`).join('');
+  ctx.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ hideCtx(); items[+b.dataset.i].fn(); }));
+  ctx.classList.add('show');
+  const mw=ctx.offsetWidth, mh=ctx.offsetHeight;
+  let x=e.clientX, y=e.clientY;
+  if(x+mw>innerWidth-8) x=innerWidth-mw-8;
+  if(y+mh>innerHeight-8) y=innerHeight-mh-8;
+  ctx.style.left=x+'px'; ctx.style.top=y+'px';
+}
+function hideCtx(){ ctx.classList.remove('show'); }
+window.addEventListener('click',hideCtx);
+window.addEventListener('scroll',hideCtx,true);
+window.addEventListener('resize',hideCtx);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') hideCtx(); });
+
+function projectMenu(e,m,p){
+  const items=[{label:'Edit allocation',icon:'edit',fn:()=>openEdit(m,p)}];
+  if(p.cablePlan) items.unshift({label:'View cable plan',icon:'cable',fn:openCable});
+  items.push({label:'Delete allocation',icon:'del',danger:true,fn:()=>removeProject(m,p)});
+  showCtx(e,p.name,items);
+}
+function removeProject(m,p){
+  if(!confirm(`Delete “${p.name}” from ${m.name}?`)) return;
+  m.projects=m.projects.filter(x=>x!==p);
+  cleanupEmptyMembers(); persist(); render();
+}
+
+/* ---------- Calala drawer ---------- */
+function openCable(){
+  hideTip(); hideCtx();
+  const body=el('drBody');
+  // mini gantt aligned Jul–Dec 2026
+  const mS=d('2026-07-20'), mE=d('2026-12-15');
+  const totalDays=daysBetween(mS,mE);
+  const pxW=Math.max(460, viewport.clientWidth*0.44);
+  const scale=pxW/totalDays;
+  const xm=dt=>daysBetween(mS,dt)*scale;
+
+  let ticks='';
+  let cur=startOfMonth(mS); if(cur<mS)cur=new Date(mS.getFullYear(),mS.getMonth()+1,1,12);
+  while(cur<=mE){ ticks+=`<div class="mini-mtick" style="left:${xm(cur)}px">${MONTHS[cur.getMonth()]}</div>`; cur=new Date(cur.getFullYear(),cur.getMonth()+1,1,12); }
+
+  let barsRows='';
+  CABLE.forEach(c=>{
+    const s=d(c.s),e=d(c.e);
+    const left=Math.max(xm(s),0), wd=Math.max(daysBetween(s,e)*scale,10);
+    barsRows+=`<div class="mini-row"><div class="mini-bar ${c.status}" style="left:${left}px;width:${wd}px" title="${c.desc} · ${c.timing}">${c.n}</div></div>`;
+  });
+  const t=new Date(); t.setHours(12,0,0,0);
+  const todayEl=(t>=mS&&t<=mE)?`<div class="mini-today" style="left:${xm(t)}px"></div>`:'';
+
+  let list='';
+  CABLE.forEach(c=>{
+    list+=`<li>
+      <div class="n ${c.status==='firm'?'firm':''}">${c.n}</div>
+      <div>
+        <div class="d">${escapeHtml(c.desc)}</div>
+        <div class="t">${escapeHtml(c.timing)}</div>
+        <span class="st ${c.status}">${c.status==='firm'?'Firm':c.status==='investigating'?'Investigating':'Pending'}</span>
+        <div class="note">${escapeHtml(c.note)}</div>
+      </div>
+    </li>`;
+  });
+
+  body.innerHTML=`
+    <div class="dr-note">Two windows are <b>firm and planned</b> (steps 1–2). Steps 4–7 are indicative and pending CableGrid capacity or Equis MMP approval — treat the bars as approximate until confirmed.</div>
+    <div class="mini">
+      <div class="mini-title">Site windows · Jul – Dec 2026</div>
+      <div style="position:relative;width:${pxW}px">
+        <div class="mini-scale">${ticks}${todayEl}</div>
+        ${barsRows}
+      </div>
+    </div>
+    <ol class="seq">${list}</ol>`;
+
+  el('scrim').classList.add('show');
+  el('drawer').classList.add('show');
+  el('drClose').focus();
+}
+function closeCable(){ el('scrim').classList.remove('show'); el('drawer').classList.remove('show'); }
+
+/* ---------- add / edit modal ---------- */
+let editing=null; // {m,p} or null for add
+function fillMembers(sel){
+  sel.innerHTML='';
+  state.members.forEach(m=>{ const o=document.createElement('option'); o.value=m.id; o.textContent=m.name; sel.appendChild(o); });
+  const o=document.createElement('option'); o.value='__new__'; o.textContent='+ New team member…'; sel.appendChild(o);
+}
+function openAdd(prefillMember){
+  editing=null;
+  el('modalEyebrow').textContent=prefillMember?prefillMember.name:'New allocation';
+  el('modalTitle').textContent=prefillMember?`Add project · ${prefillMember.name}`:'Add project';
+  el('btnDelete').style.display='none';
+  fillMembers(el('fMember'));
+  el('fMember').value = prefillMember ? prefillMember.id : (state.members[0]?state.members[0].id:'__new__');
+  toggleNewMember();
+  el('fName').value=''; el('fClient').value=''; el('fType').value='Project';
+  el('fUtil').value=20; el('fStart').value=''; el('fEnd').value='';
+  el('fM15').value=''; el('fM45').value=''; el('fM85').value='';
+  showModal();
+}
+function openEdit(m,p){
+  editing={m,p};
+  el('modalEyebrow').textContent=m.name;
+  el('modalTitle').textContent='Edit allocation';
+  el('btnDelete').style.display='inline-block';
+  fillMembers(el('fMember'));
+  el('fMember').value=m.id; toggleNewMember();
+  el('fName').value=p.name; el('fClient').value=p.client||''; el('fType').value=p.type||'Project';
+  el('fUtil').value=p.util; el('fStart').value=p.start||''; el('fEnd').value=p.end||'';
+  el('fM15').value=p.m15||''; el('fM45').value=p.m45||''; el('fM85').value=p.m85||'';
+  showModal();
+}
+function toggleNewMember(){ el('newMemberWrap').style.display = el('fMember').value==='__new__'?'block':'none'; }
+function showModal(){ hideTip(); hideCtx(); el('fName').style.borderColor=''; el('modal').classList.add('show'); setTimeout(()=>el('fName').focus(),30); }
+function closeModal(){ el('modal').classList.remove('show'); }
+
+function saveProj(){
+  const name=el('fName').value.trim();
+  if(!name){ el('fName').focus(); el('fName').style.borderColor='var(--red)'; return; }
+  const data={
+    name, client:el('fClient').value.trim(), type:el('fType').value,
+    util:Math.max(0,Math.min(100,+el('fUtil').value||0)),
+    start:el('fStart').value||null, end:el('fEnd').value||null,
+    m15:el('fM15').value||null, m45:el('fM45').value||null, m85:el('fM85').value||null
+  };
+  // date sanity
+  if(data.start&&data.end&&d(data.end)<d(data.start)){ const t=data.start; data.start=data.end; data.end=t; }
+
+  let memberId=el('fMember').value, member;
+  if(memberId==='__new__'){
+    const nm=el('fNewMember').value.trim();
+    if(!nm){ el('fNewMember').focus(); return; }
+    member={id:'m'+(uid++),name:nm,projects:[]}; state.members.push(member);
+  } else {
+    member=state.members.find(m=>m.id===memberId);
+  }
+
+  if(editing){
+    // if member changed, move it
+    if(editing.m.id!==member.id){
+      editing.m.projects=editing.m.projects.filter(x=>x!==editing.p);
+      member.projects.push(editing.p);
+    }
+    Object.assign(editing.p,data);
+  } else {
+    member.projects.push({id:'p'+(uid++),cablePlan:false,...data});
+  }
+  cleanupEmptyMembers();
+  persist(); closeModal(); render();
+}
+function deleteProj(){
+  if(!editing) return;
+  if(!confirm(`Delete “${editing.p.name}” from ${editing.m.name}?`)) return;
+  editing.m.projects=editing.m.projects.filter(x=>x!==editing.p);
+  cleanupEmptyMembers();
+  persist(); closeModal(); render();
+}
+function cleanupEmptyMembers(){ state.members=state.members.filter(m=>m.projects.length>0); }
+
+/* ---------- save / load ---------- */
+function downloadJson(){
+  const blob=new Blob([JSON.stringify(exportData(),null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob); const a=document.createElement('a');
+  a.href=url; a.download='CPP-design-team-schedule.json'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function loadJson(file){
+  const r=new FileReader();
+  r.onload=()=>{ try{ const raw=JSON.parse(r.result); if(raw&&raw.members){ hydrate(raw.members); persist(); render(); } else alert('That file doesn’t look like a saved schedule.'); }catch(e){ alert('Could not read that file.'); } };
+  r.readAsText(file);
+}
+
+/* ---------- util ---------- */
+function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function scrollToToday(){
+  const t=new Date(); t.setHours(12,0,0,0);
+  viewport.scrollLeft = Math.max(0, xOf(t) - viewport.clientWidth*0.35);
+}
+
+/* ---------- collapse all ---------- */
+function setAllCollapsed(v){ state.members.forEach(m=>m._collapsed=v); render(); syncCollapseBtn(); }
+function syncCollapseBtn(){
+  const anyOpen=state.members.some(m=>!m._collapsed);
+  el('btnCollapse').textContent=anyOpen?'Collapse all':'Expand all';
+}
+
+/* ---------- 4-week look-ahead ---------- */
+function overlaps(s,e,a,b){ return s<=b && e>=a; }
+function within(dt,a,b){ return dt>=a && dt<=b; }
+function weeklyLoad(m,weeks){
+  return weeks.map(([a,b])=>{
+    let sum=0;
+    m.projects.forEach(p=>{
+      const s=d(p.start), e=d(p.end);
+      const active = (!s||!e) ? true : overlaps(s,e,a,b);
+      if(active) sum+=(+p.util||0);
+    });
+    return sum;
+  });
+}
+function memberFlags(m,winA,winB){
+  const flags=[];
+  m.projects.forEach(p=>{
+    [['15',p.m15],['45',p.m45],['85',p.m85]].forEach(([lab,v])=>{
+      const dt=d(v); if(dt&&within(dt,winA,winB)) flags.push({cls:'ms',txt:`${p.name} · ${lab}% ${fmt(dt)}`});
+    });
+    const st=d(p.start), en=d(p.end);
+    if(st&&within(st,winA,winB)) flags.push({cls:'start',txt:`${p.name} starts ${fmt(st)}`});
+    if(en&&within(en,winA,winB)) flags.push({cls:'end',txt:`${p.name} ends ${fmt(en)}`});
+  });
+  return flags;
+}
+function openLook(){
+  hideTip(); hideCtx();
+  const today=new Date(); today.setHours(12,0,0,0);
+  const winA=today, winB=addDays(today,27);
+  const weeks=[0,1,2,3].map(i=>[addDays(today,i*7), addDays(today,i*7+6)]);
+  el('lookRange').textContent=`Resourcing forecast · ${fmt(winA)} – ${fmt(winB)}`;
+
+  // Calala site windows in range
+  const cable=CABLE.filter(c=>overlaps(d(c.s),d(c.e),winA,winB));
+  let cableHtml='';
+  if(cable.length){
+    cableHtml=`<div class="la-cablewrap"><div class="la-ct"><span class="la-cd"></span>Calala BESS · site windows in the next 4 weeks</div>`+
+      cable.map(c=>`<div class="la-cable-item"><span class="w">${escapeHtml(c.timing)}</span><b>Step ${c.n}</b>${escapeHtml(c.desc)} <span style="color:var(--gray)">— ${c.status}</span></div>`).join('')+
+      `</div>`;
+  }
+
+  // header
+  let head=`<div class="la-weekhdr"><div>Team member</div>`;
+  weeks.forEach(([a,b],i)=>{ head+=`<div>Wk${i+1}<br>${a.getDate()} ${MONTHS[a.getMonth()]}</div>`; });
+  head+=`<div>Peak</div></div>`;
+
+  // rows
+  let body='';
+  state.members.forEach(m=>{
+    const load=weeklyLoad(m,weeks);
+    const peak=Math.max(...load,0);
+    const flags=memberFlags(m,winA,winB);
+    let cells='';
+    load.forEach(v=>{
+      const over=v>100, h=Math.min(v,100);
+      const low=v<45;
+      cells+=`<div class="la-cell" title="${v}% allocated">
+        <div class="la-bar ${over?'over':''} ${v===0?'zero':''}" style="height:${v===0?4:h}%"></div>
+        <span class="la-pct ${low?'low':''}">${v===0?'—':v+'%'}</span>
+      </div>`;
+    });
+    const activeCount=m.projects.filter(p=>{const s=d(p.start),e=d(p.end); return (!s||!e)?true:overlaps(s,e,winA,winB);}).length;
+    body+=`<div class="la-row">
+      <div><div class="la-name">${escapeHtml(m.name)}</div><div class="sub">${activeCount} active</div></div>
+      ${cells}
+      <div class="la-peak ${peak>100?'over':''}">${peak}%<span class="pl">peak</span></div>
+      ${flags.length?`<div class="la-flags">${flags.map(f=>`<span class="la-flag ${f.cls}">${escapeHtml(f.txt)}</span>`).join('')}</div>`:''}
+    </div>`;
+  });
+
+  const legend=`<div class="la-legend">
+    <span>Weekly bar = total allocated utilisation that week</span>
+    <span><span class="la-flag ms" style="padding:1px 7px">submission gate</span></span>
+    <span><span class="la-flag start" style="padding:1px 7px">project starts</span></span>
+    <span><span class="la-flag end" style="padding:1px 7px">project ends</span></span>
+  </div>`;
+
+  el('lookBody').innerHTML=cableHtml+head+body+legend;
+  el('lookScrim').classList.add('show');
+  el('look').classList.add('show');
+  el('lookClose').focus();
+}
+function closeLook(){ el('lookScrim').classList.remove('show'); el('look').classList.remove('show'); }
+
+/* ---------- wire up ---------- */
+el('scaleSeg').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b)return;
+  [...el('scaleSeg').children].forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); zoom=b.dataset.z; render(); if(zoom!=='quarter') scrollToToday();
+});
+el('btnToday').addEventListener('click',scrollToToday);
+el('btnFit').addEventListener('click',()=>{ viewport.scrollLeft=0; });
+el('btnCollapse').addEventListener('click',()=>{ const anyOpen=state.members.some(m=>!m._collapsed); setAllCollapsed(anyOpen); });
+el('btnLook').addEventListener('click',openLook);
+el('lookClose').addEventListener('click',closeLook);
+el('lookScrim').addEventListener('click',closeLook);
+el('btnAdd').addEventListener('click',()=>openAdd());
+el('btnCancel').addEventListener('click',closeModal);
+el('btnSaveProj').addEventListener('click',saveProj);
+el('btnDelete').addEventListener('click',deleteProj);
+el('fMember').addEventListener('change',toggleNewMember);
+el('drClose').addEventListener('click',closeCable);
+el('scrim').addEventListener('click',closeCable);
+el('btnSave').addEventListener('click',downloadJson);
+el('btnLoad').addEventListener('click',()=>el('fileInput').click());
+el('fileInput').addEventListener('change',e=>{ if(e.target.files[0]) loadJson(e.target.files[0]); e.target.value=''; });
+el('modal').addEventListener('click',e=>{ if(e.target===el('modal')) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeCable(); closeModal(); closeLook(); } });
+
+/* ---------- boot ---------- */
+(function init(){
+  const t=new Date();
+  el('todayLabel').textContent=`Today · ${t.getDate()} ${MONTHS[t.getMonth()]} ${t.getFullYear()}`;
+  if(!tryRestore()) hydrate(SEED);
+  render();
+  scrollToToday();
+})();
+</script>
+</body>
+</html>
